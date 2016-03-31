@@ -4,4 +4,8 @@ public class App {
      */
     public static void main(String[] args) {
     }
+    
+    public boolean isEven(int i) {
+        return i % 2 == 0;
+    }
 }
