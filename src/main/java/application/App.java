@@ -7,6 +7,7 @@ public class App {
     public static void main(String[] args) {
 
         System.out.println("Testowa wiadomosc");
+        System.out.println("Ninja Review nie działa");
     }
     
     public boolean isEven(int i) {
