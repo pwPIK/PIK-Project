@@ -15,7 +15,7 @@ public class AppTest {
     @Test
     public void testIsEven() {
         App app = new App();
-        assertEquals(true, app.isEven(6));
+        assertEquals(false, app.isEven(6));
     }
     
 }
