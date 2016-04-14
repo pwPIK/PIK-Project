@@ -11,27 +11,6 @@ repositories {
     mavenCentral()
 }
 
-task add_and_print {
-    doLast {
-        def x = 42
-        def y = 22
-        def sum = x + y
-        println(sum)
-    }
-}
-
-task add_and_print2 {
-    doLast {
-        def x = 2
-        def y = 22
-        def sum = x + y
-        println(sum)
-    }
-}
-
-add_and_print.group = 'Dodawanko'
-add_and_print2.group = 'Dodawanko'
-
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
