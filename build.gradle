@@ -11,29 +11,34 @@ repositories {
     mavenCentral()
 }
 
-task add_and_print {
-    doLast {
-        def x = 42
-        def y = 22
-        def sum = x + y
-        println(sum)
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integrationTest/')
+        }
+        resources.srcDir file('src/integrationTest/resources')
     }
 }
 
-task add_and_print2 {
-    doLast {
-        def x = 2
-        def y = 22
-        def sum = x + y
-        println(sum)
-    }
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
 }
-
-add_and_print.group = 'Dodawanko'
-add_and_print2.group = 'Dodawanko'
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.10'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-//add_and_print2.mustRunAfter add_and_print
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
+
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
