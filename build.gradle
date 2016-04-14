@@ -14,5 +14,3 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
-
-//add_and_print2.mustRunAfter add_and_print
