@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ev
 if [ "${TRAVIS_PULL_REQUEST}" = "true" ]; then
-	gradle clean integrationTest
+	gradle clean test integrationTest
 fi
 
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
