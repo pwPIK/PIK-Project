@@ -1,0 +1,9 @@
+spring:
+    datasource:
+        driverClassName: org.h2.Driver
+        url: jdbc:h2:mem:chipanddale
+    jpa:
+      database: h2
+      database-platform: H2
+      hibernate:
+        ddl-auto: update
