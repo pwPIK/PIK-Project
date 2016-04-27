@@ -1,8 +1,10 @@
 <!doctype html>
 <html ng-app>
 <head>
-    <title>Bye AngularJS</title>
+    <title>Chip and Dale</title>
     <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
@@ -13,7 +15,37 @@
             <p>Description: {{stash.description}}</p>
         </div>
     </div>
-    <div id="googleMap" style="width:500px;height:380px;"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-8">
+          <h2>Chip & Dale</h2>
+
+          <div class="navigation-bar">
+            <button class="btn btn-default" type="submit">View all</button>
+            <button class="btn btn-default" type="submit">Find nearest</button>
+          </div>
+
+        </div>
+        <div class="col-sm-8">
+          <div class="container">
+            <div class="row main-row">
+
+              <div class="col-md-2 left-column">
+                <button class="btn btn-default" type="submit">View all</button>
+                <button class="btn btn-default" type="submit">Find nearest</button>
+              </div>
+
+              <div class="col-md-10 right-column">
+                <div class="google-map" id="map" style="width:500px;height:380px;"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
         function initialize() {
           var mapProp = {
@@ -21,11 +53,12 @@
             zoom:5,
             mapTypeId:google.maps.MapTypeId.ROADMAP
           };
-          var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+          var map=new google.maps.Map(document.getElementById("map"),mapProp);
         }
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     <script src="hello.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
 </body>
 </html>
