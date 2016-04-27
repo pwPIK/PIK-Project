@@ -31,13 +31,22 @@
           <div class="container">
             <div class="row main-row">
 
-              <div class="col-md-2 left-column">
-                <button class="btn btn-default" type="submit">View all</button>
-                <button class="btn btn-default" type="submit">Find nearest</button>
+              <div class="col-md-3 left-column">
+
+                <div class="current-location">
+                  <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
+                  </button>
+                  <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Search</button>
+                  </span>
+                </div>
+              
               </div>
 
-              <div class="col-md-10 right-column">
-                <div class="google-map" id="map" style="width:500px;height:380px;"></div>
+              <div class="col-md-9 right-column">
+                <div class="google-map" id="map"></div>
               </div>
 
             </div>
@@ -49,7 +58,7 @@
     <script>
         function initialize() {
           var mapProp = {
-            center:new google.maps.LatLng(51.508742,-0.120850),
+            center:new google.maps.LatLng(52.6945446,18.9780741,6),
             zoom:5,
             mapTypeId:google.maps.MapTypeId.ROADMAP
           };
