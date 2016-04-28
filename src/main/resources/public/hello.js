@@ -1,6 +1,94 @@
+var host = "http://"+window.location.host;
+
+// wypisuje liste miejsc
 function Stash($scope, $http) {
-    $http.get('http://localhost:8080/display').
-        success(function(data) {
-            $scope.stashes = data;
-        });
+//    $http.get(host+'/display').
+//        success(function(data) {
+//            $scope.stashes = data;
+//        });
+}
+
+var mapPop, map;
+
+function initMap() {
+
+    var location = new google.maps.LatLng(52.2191075, 21.0094183);
+    var mapCanvas = document.getElementById('map');
+    mapPop = {
+        center: location,
+        zoom: 14,
+        panControl: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+
+    map = new google.maps.Map(document.getElementById("map"), mapPop);
+    var allPlacesButton = document.getElementsByClassName("all-button")[0];
+
+    allPlacesButton.addEventListener("click", function(event) {
+    	// wyswietl wszystkie miejsca
+    	loadData();
+	});
+}
+
+function putMarker(latitude, longitude, description) {
+    var location = new google.maps.LatLng(latitude, longitude);
+    var markerImage = 'marker.png';
+
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: markerImage
+    });
+
+    var contentString = '<div class="info-window">' +
+            '<h3>Opis</h3>' +
+            '<div class="description">' +
+            '<p>' + description + '</p>' +
+            '</div>' +
+            '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString,
+        maxWidth: 400
+    });
+
+    marker.addListener('click', function () {
+        infowindow.open(map, marker);
+    });
+}
+
+/* 
+[
+	{
+    	"marker": {
+        	"latitude": 1.05,
+        	"longitude": 2.05
+    	},
+    	"description": "Opis, co znajduje się w kryjowce"
+	}
+]
+*/
+
+function showMarkers(data) {
+	for(var i in data) {
+		putMarker(data[i].marker.latitude, data[i].marker.longitude, data[i].description);
+	}
+}
+
+function loadData() {
+	var req = new XMLHttpRequest();
+	req.open('GET', host+'/display', true); // asynchronicznie
+	req.onreadystatechange = function (aEvt) {
+	  	if (req.readyState == 4) {
+	     	if(req.status == 200)
+	    	{
+	    		var markerList = JSON.parse(req.responseText);
+	    		showMarkers(markerList);
+	    	} else 
+	    	{
+	      		// Error
+	  		}
+		}
+	};
+	req.send(null);
 }

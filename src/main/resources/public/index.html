@@ -10,13 +10,14 @@
     <link href="css/styles.css" rel="stylesheet">
     <!-- Google Maps -->
     <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="hello.js"></script>
 </head>
 
 <body>
      <div ng-controller="Stash">
         <div ng-repeat="stash in stashes" style="border: 1px black solid; width: 400px; margin: 5px; padding: 10px">
             <p>Latitude: {{stash.marker.latitude}}</p>
-            <p>Longitude: {{stash.marker.longitude}}</p>
+            <p>Longitude: {{stash.marker.longitude}}</p
             <p>Description: {{stash.description}}</p>
         </div>
     </div>
@@ -77,7 +78,10 @@
                     </li>
 
                     <li>
-
+                      <button type="button" class="btn btn-default all-button">
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                      </button>
+                      Wyświetl wszystkie oznaczone miejsca
                     </li>
                 </ul>
             </div>
@@ -85,8 +89,7 @@
         </div>
         <!-- /.row -->
 
-        <hr>
-
+        <div>
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -100,50 +103,11 @@
     <!-- /.container -->
 
     <script>
-        function initMap() {
-
-        var location = new google.maps.LatLng(52.2191075, 21.0094183);
-        var mapCanvas = document.getElementById('map');
-        var mapOptions = {
-            center: location,
-            zoom: 16,
-            panControl: false,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        var map = new google.maps.Map(mapCanvas, mapOptions);
-
-        var pushpinImage = 'pushpin.png';
-
-        var pushpin = new google.maps.Marker({
-            position: location,
-            map: map,
-            icon: pushpinImage
-        });
-
-        var contentString = '<div class="info-window">' +
-                '<h3>Opis</h3>' +
-                '<div class="description">' +
-                '<p>Smakołyk na Elce</p>' +
-                '</div>' +
-                '</div>';
-
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString,
-            maxWidth: 400
-        });
-
-        pushpin.addListener('click', function () {
-            infowindow.open(map, pushpin);
-        });
-
-
-    }
-    google.maps.event.addDomListener(window, 'load', initMap);
+        google.maps.event.addDomListener(window, 'load', initMap);
     </script>
 
     <script src="js/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="hello.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
