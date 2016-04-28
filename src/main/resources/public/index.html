@@ -7,7 +7,7 @@
     <title>Chip i Dale</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/portfolio-item.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
     <!-- Google Maps -->
     <script src="http://maps.googleapis.com/maps/api/js"></script>
 </head>
@@ -32,7 +32,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Chip and Dale</a>
+                <a class="navbar-brand" href="#">Chip i Dale</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -52,8 +52,8 @@
         <!-- Portfolio Item Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Smakołyki
-                    <small>- odszukaj i zaznacz</small>
+                <h1 class="page-header">Chip i Dale
+                    <small>- odszukaj i zaznacz smakołyki</small>
                 </h1>
             </div>
         </div>
@@ -67,14 +67,18 @@
             </div>
 
             <div class="col-md-4">
-                <h3>Project Description</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-                <h3>Project Details</h3>
+                <h3>Zarządzaj smakołykami</h3>
                 <ul>
-                    <li>Lorem Ipsum</li>
-                    <li>Dolor Sit Amet</li>
-                    <li>Consectetur</li>
-                    <li>Adipiscing Elit</li>
+                    <li>
+                      <button type="button" class="btn btn-default pushpin-button">
+                        <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                      </button>
+                      Oznacz miejsce na mapie
+                    </li>
+
+                    <li>
+
+                    </li>
                 </ul>
             </div>
 
@@ -108,18 +112,18 @@
         }
         var map = new google.maps.Map(mapCanvas, mapOptions);
 
-        var markerImage = 'pushpin.png';
+        var pushpinImage = 'pushpin.png';
 
-        var marker = new google.maps.Marker({
+        var pushpin = new google.maps.Marker({
             position: location,
             map: map,
-            icon: markerImage
+            icon: pushpinImage
         });
 
         var contentString = '<div class="info-window">' +
                 '<h3>Opis</h3>' +
                 '<div class="description">' +
-                '<p>Smakołyk</p>' +
+                '<p>Smakołyk na Elce</p>' +
                 '</div>' +
                 '</div>';
 
@@ -128,8 +132,8 @@
             maxWidth: 400
         });
 
-        marker.addListener('click', function () {
-            infowindow.open(map, marker);
+        pushpin.addListener('click', function () {
+            infowindow.open(map, pushpin);
         });
 
 
@@ -137,9 +141,11 @@
     google.maps.event.addDomListener(window, 'load', initMap);
     </script>
 
+    <script src="js/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     <script src="hello.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>

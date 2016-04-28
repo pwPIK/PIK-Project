@@ -12,6 +12,12 @@ body {
     margin-bottom: 25px;
 }
 
+ul {
+
+list-style-type: none;
+
+}
+
 footer {
     margin: 50px 0;
 }
