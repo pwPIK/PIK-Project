@@ -96,15 +96,45 @@
     <!-- /.container -->
 
     <script>
-        function initialize() {
-            var mapProp = {
-                center:new google.maps.LatLng(52.822847,19.6032319),
-                zoom:5,
-                mapTypeId:google.maps.MapTypeId.ROADMAP
-            };
-            var map=new google.maps.Map(document.getElementById("map"),mapProp);
+        function initMap() {
+
+        var location = new google.maps.LatLng(52.2191075, 21.0094183);
+        var mapCanvas = document.getElementById('map');
+        var mapOptions = {
+            center: location,
+            zoom: 16,
+            panControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         }
-        google.maps.event.addDomListener(window, 'load', initialize);
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+
+        var markerImage = 'pushpin.png';
+
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            icon: markerImage
+        });
+
+        var contentString = '<div class="info-window">' +
+                '<h3>Opis</h3>' +
+                '<div class="description">' +
+                '<p>Smakołyk</p>' +
+                '</div>' +
+                '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 400
+        });
+
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
+        });
+
+
+    }
+    google.maps.event.addDomListener(window, 'load', initMap);
     </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
