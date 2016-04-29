@@ -1,0 +1,30 @@
+#!/bin/bash
+set -x
+
+PID=$(ps -ef | grep java.*\.jar | grep -v grep | awk '{ print $2 }')
+if [ -z "$PID" ]
+then
+    client_result "Application is already stopped"
+else
+    kill $PID
+fi
+
+
+
+cd $OPENSHIFT_DATA_DIR/gradle-2.12/bin
+rm -rf src
+rm -rf build.gradle
+rm -rf settings.gradle
+rm -rf build
+cp -r $OPENSHIFT_REPO_DIR/src $OPENSHIFT_DATA_DIR/gradle-2.12/bin
+cp $OPENSHIFT_REPO_DIR/settings.gradle $OPENSHIFT_DATA_DIR/gradle-2.12/bin
+cp $OPENSHIFT_REPO_DIR/build.gradle $OPENSHIFT_DATA_DIR/gradle-2.12/bin
+cp $OPENSHIFT_DATA_DIR/application.yml $OPENSHIFT_DATA_DIR/gradle-2.12/bin/src/main/resources
+cp $OPENSHIFT_DATA_DIR/hello.js $OPENSHIFT_DATA_DIR/gradle-2.12/bin/src/main/resources/public
+./gradle build -x test
+cd $OPENSHIFT_DATA_DIR/jdk1.8.0_91/bin
+rm -f *.jar
+#gradle build
+cp $OPENSHIFT_DATA_DIR/gradle-2.12/bin/build/libs/*.jar $OPENSHIFT_DATA_DIR/jdk1.8.0_91/bin
+./java -Xms384m -Xmx496m -jar *.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} &
+
