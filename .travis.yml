@@ -14,4 +14,4 @@ deploy:
   on:
     repo: pwPIK/PIK-Project
     branch: master
-    condition: if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
+    condition: "${TRAVIS_PULL_REQUEST}" = "false"
