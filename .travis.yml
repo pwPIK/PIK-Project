@@ -3,3 +3,15 @@ jdk:
     - oraclejdk8
 
 script: scripts/run-tests.sh
+
+deploy:
+    provider: openshift
+    user: m.ostapowicz@stud.elka.pw.edu.pl
+    password:
+        secure: M4PrfmDmLP37nuaD866DJzn6rlrOOq1cnXL6routB+eSnqlA8DRl/T3dpwgQdnd6qMv86sLGoGd3gu6hVFgetDrLD6086JqwJ8SAwd2ZfQXeMfyZ9laUi9wi/Wj/E6WcQMTUPovbrEsNUyDKLYIBkXGRIS99L34EmNntLISz0ql2+WR1ya3HTikhHqxYe8GsWC2yvgsf6H4AYyZ3tydlS0N+W0k8K37LOLeZiL5R+U5+R68AQ2aygfx8R/QTdk9sUb5s8Xi6mGNjsCbuPyiQfpl2ZQlE6KXwCukEcUzBRXamiqsXv2rA9WU2JYBZBwyCNYuLRvOQrKkY79n54liGHwETY06hzll2rxhXHpo0qt5iWD96DgBb3r068yGFACPM4Am5ALgxvMILUzdPxj1ADvNCpr7kBsWbmJHISfTrbErtH+d567ZPN1HiA5gHTLxEjerlbvmr+rQhioq6gsYhNjFOIvsU4phqt/z4PIXsdkwrPSiRkxRsK7CrPIewraBn1Mo+dEJlBcBdQg45a2RVZwk+nbm/gtDwLFFOhp4frg37xUjw+QqfAQeulHymXdmu9zNCeUlPx6O65XuIdpuXpXsC1TYTDcTXiVKFgBDyNITGbS/6GIC6Od+vUSGtKOyzIZi2wN065Dzfs/Rfv9i5f5c27A0JLU2yHYEvRdizh3c=
+    app: chipanddale
+    domain: pwprojects
+    on:
+        repo: pwPIK/PIK-Project
+        branch: master
+        condition: $TRAVIS_PULL_REQUEST = false
