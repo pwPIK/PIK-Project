@@ -1,31 +1,115 @@
-<!doctype html>
-<html ng-app>
+<!DOCTYPE html>
+<html lang="en" ng-app>
+
 <head>
-    <title>Bye AngularJS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chip i Dale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+    <!-- Google Maps -->
     <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="hello.js"></script>
 </head>
 
 <body>
-    <div ng-controller="Stash">
+     <div ng-controller="Stash">
         <div ng-repeat="stash in stashes" style="border: 1px black solid; width: 400px; margin: 5px; padding: 10px">
             <p>Latitude: {{stash.marker.latitude}}</p>
-            <p>Longitude: {{stash.marker.longitude}}</p>
+            <p>Longitude: {{stash.marker.longitude}}</p
             <p>Description: {{stash.description}}</p>
         </div>
     </div>
-    <div id="googleMap" style="width:500px;height:380px;"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Chip i Dale</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">O projekcie</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Chip i Dale
+                    <small>- odszukaj i zaznacz smakołyki</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Map Row -->
+        <div class="row">
+
+            <div class="col-md-8">
+                <div class="google-map" id="map"></div>
+            </div>
+
+            <div class="col-md-4">
+                <h3>Zarządzaj smakołykami</h3>
+                <ul>
+                    <li>
+                      <button type="button" class="btn btn-default pushpin-button">
+                        <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                      </button>
+                      Oznacz miejsce na mapie
+                    </li>
+
+                    <li>
+                      <button type="button" class="btn btn-default all-button">
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                      </button>
+                      Wyświetl wszystkie oznaczone miejsca
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <div>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; PWPIK</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+    </div>
+    <!-- /.container -->
+
     <script>
-        function initialize() {
-          var mapProp = {
-            center:new google.maps.LatLng(51.508742,-0.120850),
-            zoom:5,
-            mapTypeId:google.maps.MapTypeId.ROADMAP
-          };
-          var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
+        google.maps.event.addDomListener(window, 'load', initMap);
     </script>
+
+    <script src="js/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="hello.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>
