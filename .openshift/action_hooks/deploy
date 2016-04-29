@@ -20,7 +20,6 @@ cp -r $OPENSHIFT_REPO_DIR/src $OPENSHIFT_DATA_DIR/gradle-2.12/bin
 cp $OPENSHIFT_REPO_DIR/settings.gradle $OPENSHIFT_DATA_DIR/gradle-2.12/bin
 cp $OPENSHIFT_REPO_DIR/build.gradle $OPENSHIFT_DATA_DIR/gradle-2.12/bin
 cp $OPENSHIFT_DATA_DIR/application.yml $OPENSHIFT_DATA_DIR/gradle-2.12/bin/src/main/resources
-cp $OPENSHIFT_DATA_DIR/hello.js $OPENSHIFT_DATA_DIR/gradle-2.12/bin/src/main/resources/public
 ./gradle build -x test
 cd $OPENSHIFT_DATA_DIR/jdk1.8.0_91/bin
 rm -f *.jar
