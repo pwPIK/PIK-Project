@@ -28,6 +28,19 @@ function initMap() {
     	// wyswietl wszystkie miejsca
     	loadData();
 	});
+	
+	// NEW
+	// zaznaczanie miejsc na mapie
+	var drawingManager = new google.maps.drawing.DrawingManager({
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+            drawingModes: [
+              google.maps.drawing.OverlayType.MARKER,
+            ]
+          },
+          markerOptions: {icon: 'marker.png'}
+        });
+    drawingManager.setMap(map);
 }
 
 function putMarker(latitude, longitude, description) {
