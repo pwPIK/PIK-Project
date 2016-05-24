@@ -33,6 +33,23 @@ function initMap() {
 	drawMark();
 }
 
+function addDescriptionToMarker(description, marker, map) {
+	var contentString = '<div class="info-window">' +
+            '<h3>Opis</h3>' +
+            '<div class="description">' +
+            '<p>' + description + '</p>' +
+            '</div>' +
+            '</div>';
+	var infowindow = new google.maps.InfoWindow({
+		content: contentString,
+		maxWidth: 400
+	});
+	// po kliknieciu na marker pojawia sie informacja - opis kryjowki
+	marker.addListener('click', function() {
+		infowindow.open(map, marker);
+	});
+}
+
 // zaznaczanie miejsc na mapie i zapisywanie w bazie
 function drawMark() {
 	var drawingManager = new google.maps.drawing.DrawingManager({
@@ -44,14 +61,13 @@ function drawMark() {
 		},
 		markerOptions: {icon: 'marker.png'}
     });
-		
+
 	google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
 		var lat = marker.getPosition().lat();
 		var lng = marker.getPosition().lng();
 		
 		// wyswietl okno do wpisania opisu kryjowki
 		$("#myModal").modal('show');
-		
 		// po kliknieciu "Zapisz" wyslij JSONa z danymi do bazy
 		$('#submit').unbind('click').click(function() {
 			// pobierz tresc wpisana w okienku - opis schowka
@@ -71,6 +87,8 @@ function drawMark() {
 			});
 			xhr.send(data);
 			$('#description-text').val("");
+			
+			addDescriptionToMarker(description, marker, map);
 		});
 		
 		$('#cancel').unbind('click').click(function() {
@@ -91,21 +109,7 @@ function putMarker(latitude, longitude, description) {
         icon: markerImage
     });
 
-    var contentString = '<div class="info-window">' +
-            '<h3>Opis</h3>' +
-            '<div class="description">' +
-            '<p>' + description + '</p>' +
-            '</div>' +
-            '</div>';
-
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString,
-        maxWidth: 400
-    });
-
-    marker.addListener('click', function () {
-        infowindow.open(map, marker);
-    });
+	addDescriptionToMarker(description, marker, map);
 }
 
 /* 
