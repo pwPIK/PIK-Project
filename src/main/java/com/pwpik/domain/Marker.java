@@ -6,7 +6,8 @@ import javax.persistence.*;
 @Table(name = "MARKERS")
 public class Marker {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)

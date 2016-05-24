@@ -1,7 +1,9 @@
 package com.pwpik;
 
+import com.pwpik.domain.Marker;
 import com.pwpik.domain.Stash;
 import com.pwpik.repository.StashRepository;
+import com.pwpik.web.StashController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +16,24 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-public class StashRepositoryTest {
+public class StashControllerTest {
 
     @Autowired
-    private StashRepository repository;
+    private StashController controller;
 
     @Test
     public void get_all_stashes() {
-        Stash stashes[] = repository.findAll().toArray(new Stash[2]);
+        Stash stashes[] = controller.displayFirst().toArray(new Stash[2]);
         assertEquals("First stash with Edam", stashes[0].getDescription());
         assertEquals("Second stash with Gouda", stashes[1].getDescription());
+    }
+
+    @Test
+    public void new_stash_is_stored() {
+        int initialStashesAmount = controller.displayFirst().size();
+        controller.store(new Stash(new Marker(1.17f, 2.89f), "Test entry"));
+        int afterStorageNumber = controller.displayFirst().size();
+        assertEquals(1, afterStorageNumber - initialStashesAmount);
     }
 
 }
