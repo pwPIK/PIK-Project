@@ -29,8 +29,11 @@ function initMap() {
     	loadData();
 	});
 	
-	// NEW
-	// zaznaczanie miejsc na mapie
+	drawMark();
+}
+
+// zaznaczanie miejsc na mapie i zapisywanie w bazie
+function drawMark() {
 	var drawingManager = new google.maps.drawing.DrawingManager({
           drawingControlOptions: {
             position: google.maps.ControlPosition.TOP_RIGHT,
@@ -40,6 +43,30 @@ function initMap() {
           },
           markerOptions: {icon: 'marker.png'}
         });
+		
+	google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
+		var lat = marker.getPosition().lat();
+		var lng = marker.getPosition().lng();
+		//console.log(lat);
+		//console.log(lng);
+		
+		// @TODO- Tu jest wyswietlane okienko do wpisywania opisu schowka i opis do JSONa
+		
+		// zapisywanie do bazy
+		xhr = new XMLHttpRequest();
+		var url = "http://localhost:8080/store";
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-type", "application/json");
+		var data = JSON.stringify(
+			{
+				"marker": {
+					"latitude": lat,
+					"longitude": lng
+				},
+				"description": "zmienić!"
+			});
+		xhr.send(data);
+});
     drawingManager.setMap(map);
 }
 
