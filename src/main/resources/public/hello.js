@@ -29,44 +29,55 @@ function initMap() {
     	loadData();
 	});
 	
+	// zaznacz miejsce i zachowaj dane w bazie
 	drawMark();
 }
 
 // zaznaczanie miejsc na mapie i zapisywanie w bazie
 function drawMark() {
 	var drawingManager = new google.maps.drawing.DrawingManager({
-          drawingControlOptions: {
-            position: google.maps.ControlPosition.TOP_RIGHT,
-            drawingModes: [
-              google.maps.drawing.OverlayType.MARKER,
-            ]
-          },
-          markerOptions: {icon: 'marker.png'}
-        });
+		drawingControlOptions: {
+			position: google.maps.ControlPosition.TOP_RIGHT,
+			drawingModes: [
+				google.maps.drawing.OverlayType.MARKER,
+			]
+		},
+		markerOptions: {icon: 'marker.png'}
+    });
 		
 	google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
 		var lat = marker.getPosition().lat();
 		var lng = marker.getPosition().lng();
-		//console.log(lat);
-		//console.log(lng);
 		
-		// @TODO- Tu jest wyswietlane okienko do wpisywania opisu schowka i opis do JSONa
+		// wyswietl okno do wpisania opisu kryjowki
+		$("#myModal").modal('show');
 		
-		// zapisywanie do bazy
-		xhr = new XMLHttpRequest();
-		var url = "http://localhost:8080/store";
-		xhr.open("POST", url, true);
-		xhr.setRequestHeader("Content-type", "application/json");
-		var data = JSON.stringify(
+		// po kliknieciu "Zapisz" wyslij JSONa z danymi do bazy
+		$('#submit').unbind('click').click(function() {
+			// pobierz tresc wpisana w okienku - opis schowka
+			var description = $('#description-text').val();
+			
+			xhr = new XMLHttpRequest();
+			var url = "http://localhost:8080/store";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			var data = JSON.stringify(
 			{
 				"marker": {
 					"latitude": lat,
 					"longitude": lng
 				},
-				"description": "zmienić!"
+				"description": description
 			});
-		xhr.send(data);
-});
+			xhr.send(data);
+			$('#description-text').val("");
+		});
+		
+		$('#cancel').unbind('click').click(function() {
+			marker.setMap(null);		
+			$('#description-text').val("");
+		});
+	});
     drawingManager.setMap(map);
 }
 
