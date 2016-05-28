@@ -21,4 +21,7 @@ public class StashService {
         return repository.findAll();
     }
 
+    public void storeNewStash(Stash stash) {
+        repository.save(stash);
+    }
 }
