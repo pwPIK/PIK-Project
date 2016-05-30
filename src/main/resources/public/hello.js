@@ -1,4 +1,4 @@
-var host = "http://"+window.location.host;
+var host = "https://"+window.location.host;
 
 // wypisuje liste miejsc
 function Stash($scope, $http) {
@@ -9,10 +9,16 @@ function Stash($scope, $http) {
 }
 
 var mapPop, map;
+var startLatitude, startLongitude;
+var directionsDisplay = new google.maps.DirectionsRenderer();
+var directionsService = new google.maps.DirectionsService();
+
 
 function initMap() {
-
-    var location = new google.maps.LatLng(52.2191075, 21.0094183);
+	
+	
+    
+	var location = new google.maps.LatLng(52.2191075, 21.0094183);
     var mapCanvas = document.getElementById('map');
     mapPop = {
         center: location,
@@ -20,13 +26,21 @@ function initMap() {
         panControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-
+	
     map = new google.maps.Map(document.getElementById("map"), mapPop);
     var allPlacesButton = document.getElementsByClassName("all-button")[0];
+	var routeButton = document.getElementsByClassName("route-button")[0];
+	
 
+	
     allPlacesButton.addEventListener("click", function(event) {
     	// wyswietl wszystkie miejsca
-    	loadData();
+    	loadData(showMarkers);
+	});
+	
+	   routeButton.addEventListener("click", function(event) {
+    	// wyswietl wszystkie miejsca
+    	loadData(showRoute);
 	});
 	
 	// zaznacz miejsce i zachowaj dane w bazie
@@ -74,8 +88,7 @@ function drawMark() {
 			var description = $('#description-text').val();
 			
 			xhr = new XMLHttpRequest();
-			var url = "http://localhost:8080/store";
-			xhr.open("POST", url, true);
+			xhr.open("POST", host+'/store', true);
 			xhr.setRequestHeader("Content-type", "application/json");
 			var data = JSON.stringify(
 			{
@@ -130,7 +143,7 @@ function showMarkers(data) {
 	}
 }
 
-function loadData() {
+function loadData(onLoad) {
 	var req = new XMLHttpRequest();
 	req.open('GET', host+'/display', true); // asynchronicznie
 	req.onreadystatechange = function (aEvt) {
@@ -138,7 +151,7 @@ function loadData() {
 	     	if(req.status == 200)
 	    	{
 	    		var markerList = JSON.parse(req.responseText);
-	    		showMarkers(markerList);
+	    		onLoad(markerList);
 	    	} else 
 	    	{
 	      		// Error
@@ -146,4 +159,42 @@ function loadData() {
 		}
 	};
 	req.send(null);
+}
+
+
+function showRoute(data) {
+ 	
+  navigator.geolocation.getCurrentPosition(function(position) {
+   startLatitude  = position.coords.latitude;
+   startLongitude = position.coords.longitude;
+});
+	directionsDisplay.setMap(map);
+ 
+  var start = new google.maps.LatLng(startLatitude, startLongitude);
+	
+  var myData = calculateDistance(startLatitude, startLongitude, data)
+  var end = new google.maps.LatLng(myData.marker.latitude, myData.marker.longitude);
+  
+ 
+  var request = {
+    origin:start,
+    destination:end,
+    travelMode: google.maps.TravelMode.WALKING
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    }
+  });
+}
+
+function calculateDistance (latitude, longitude, data) {
+	var chosenMarker = data[0];
+	var latitudeDiff = Math.abs(data[0].marker.latitude - latitude);
+	var longitudeDiff = Math.abs(data[0].marker.longitude - longitude);
+	for(var i in data) {
+	if( (latitudeDiff + longitudeDiff) >  (Math.abs(data[i].marker.latitude - latitude) + Math.abs(data[i].marker.longitude - longitude))  )
+		chosenMarker = data[i]
+	}
+	return chosenMarker;
 }
