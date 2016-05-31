@@ -15,8 +15,15 @@ var directionsService = new google.maps.DirectionsService();
 var markers = [];
 var infoWindows = [];
 
-function initMap() {
-	var location = new google.maps.LatLng(52.2191075, 21.0094183);
+function initWithNearest() {
+	loadData( function(markerList) {
+		var mark = findClosest(markerList);
+		initMap(mark.latitude, mark.longitude);
+	} )
+}
+
+function initMap(lat, lon) {
+	var location = new google.maps.LatLng(lat, lon);
 	var mapCanvas = document.getElementById('map');
 	mapPop = {
 		center: location,
@@ -290,4 +297,29 @@ function navigateToChosen(lat, lon) {
 			directionsDisplay.setDirections(result);
 		}
 	});
+}
+
+function findClosest (data) {
+	var latitude = 53, longitude = 21;
+
+	/*navigator.geolocation.getCurrentPosition(function(position) {
+		latitude  = position.coords.latitude;
+		longitude = position.coords.longitude;
+	});*/
+
+	var chosenMarker = data[0];
+	var latitudeDiff = Math.abs(data[0].marker.latitude - latitude);
+	var longitudeDiff = Math.abs(data[0].marker.longitude - longitude);
+	for(var i in data) {
+		var tempLatDiff = Math.abs(data[i].marker.latitude - latitude);
+		var tempLonDiff = Math.abs(data[i].marker.longitude - longitude);
+		if( (latitudeDiff + longitudeDiff) >  tempLatDiff + tempLonDiff
+			&& data[i].visited === true ) {
+			chosenMarker = data[i];
+			latitudeDiff = tempLatDiff;
+			longitudeDiff = tempLonDiff;
+		}
+
+	}
+	return chosenMarker.marker;
 }
