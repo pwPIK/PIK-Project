@@ -1,4 +1,4 @@
-﻿﻿var host = "http://"+window.location.host;
+﻿﻿var host = "https://"+window.location.host;
 
 // wypisuje liste miejsc
 function Stash($scope, $http) {
