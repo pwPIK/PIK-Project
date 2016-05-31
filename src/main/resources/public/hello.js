@@ -1,4 +1,4 @@
-﻿﻿var host = "https://"+window.location.host;
+﻿﻿var host = "http://"+window.location.host;
 
 // wypisuje liste miejsc
 function Stash($scope, $http) {
@@ -57,14 +57,15 @@ function addDescriptionToMarker(description, marker, map, visited) {
 		'</div>' +
 		'<div class="modal-footer">';
 
+	var pos = marker.getPosition();
+
 	if(visited)
 		contentString += '<p>Już odwiedzony</p>';
-	else {
-		var pos = marker.getPosition();
+	else
 		contentString += '<input type="button" onclick="makeVisited(\'' + description + '\',' + pos.lat() + ',' + pos.lng() + ')" value="Oznacz odwiedzony" />';
-	}
 
 	contentString = contentString +
+		'<input type="button" onclick="navigateToChosen(' + pos.lat() + ',' + pos.lng() + ')" value="Nawiguj" />' +
 		'</div>' +
 		'</div>';
 
@@ -265,4 +266,26 @@ function makeVisited(description, lat, lon) {
 		}
 
 	}
+}
+
+function navigateToChosen(lat, lon) {
+	navigator.geolocation.getCurrentPosition(function(position) {
+		startLatitude  = position.coords.latitude;
+		startLongitude = position.coords.longitude;
+	});
+	directionsDisplay.setMap(map);
+
+	var start = new google.maps.LatLng(startLatitude, startLongitude);
+	var end = new google.maps.LatLng(lat, lon);
+
+	var request = {
+		origin:start,
+		destination:end,
+		travelMode: google.maps.TravelMode.WALKING
+	};
+	directionsService.route(request, function(result, status) {
+		if (status == google.maps.DirectionsStatus.OK) {
+			directionsDisplay.setDirections(result);
+		}
+	});
 }
