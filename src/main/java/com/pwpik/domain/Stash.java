@@ -16,12 +16,24 @@ public class Stash {
     @Column
     private String description;
 
+    @Column
+    private boolean visited;
+
     public Stash() {}
 
     public Stash(Marker marker, String description) {
         this.marker = marker;
         this.description = description;
+        this.visited = false;
     }
+
+    public Stash(Marker marker, String description, short visited) {
+        this.marker = marker;
+        this.description = description;
+        this.visited = true;
+    }
+
+    public Long getId() { return id; }
 
     public Marker getMarker() {
         return marker;
@@ -31,4 +43,7 @@ public class Stash {
         return description;
     }
 
+    public boolean isVisited() {
+        return visited;
+    }
 }

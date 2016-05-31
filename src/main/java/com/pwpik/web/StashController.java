@@ -31,5 +31,7 @@ public class StashController {
         service.storeNewStash(stash);
     }
 
+    @RequestMapping(value = "/edit")
+    public void edit(@RequestBody Stash stash) { service.editStash(stash); }
 
 }

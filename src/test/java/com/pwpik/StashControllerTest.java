@@ -26,6 +26,8 @@ public class StashControllerTest {
         Stash stashes[] = controller.displayFirst().toArray(new Stash[2]);
         assertEquals("First stash with Edam", stashes[0].getDescription());
         assertEquals("Second stash with Gouda", stashes[1].getDescription());
+        assertEquals(false, stashes[0].isVisited());
+        assertEquals(true, stashes[1].isVisited());
     }
 
     @Test
