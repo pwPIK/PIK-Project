@@ -222,20 +222,21 @@ function calculateDistance (latitude, longitude, data) {
 	return chosenMarker;
 }
 
-// Removes the markers from the map, but keeps them in the array.
+// Usuwa znaczniki z mapy wraz z przypisanymi do nich infoWindow
 function clearMarkers() {
 	setMapOnAll(null);
 	markers = [];
 	infoWindows = [];
 }
 
-// Sets the map on all markers in the array.
+// Ustawia wartość mapa dla wszystkich znaczników
 function setMapOnAll(map) {
 	for (var i = 0; i < markers.length; i++) {
 		markers[i].setMap(map);
 	}
 }
 
+// Funkcja, która zmienia wartość visited w bazie dla wybranego znacznika
 function makeVisited(description, lat, lon) {
 	xhr = new XMLHttpRequest();
 	xhr.open("POST", host+'/edit', true);
@@ -268,6 +269,7 @@ function makeVisited(description, lat, lon) {
 	}
 }
 
+//nawiguje do wybranego punktu określonego współrzędnymi lat i lon
 function navigateToChosen(lat, lon) {
 	navigator.geolocation.getCurrentPosition(function(position) {
 		startLatitude  = position.coords.latitude;
