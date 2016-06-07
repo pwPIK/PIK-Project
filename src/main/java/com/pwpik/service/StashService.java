@@ -27,17 +27,13 @@ public class StashService {
         repository.save(stash);
     }
 
-    public void editStash(Stash stash) {
+    public void editStash(Stash stashToUpdate) {
         Collection<Stash> stashes = getAllStashes();
-        Iterator<Stash> it = stashes.iterator();
 
-        while(it.hasNext()) {
-            Stash element = it.next();
-            if (stash.getMarker().getLatitude().compareTo(element.getMarker().getLatitude()) == 0 && stash.getMarker().getLongitude().compareTo(element.getMarker().getLongitude()) == 0)
-            {
-                repository.delete(element);
-                repository.save(stash);
-                break;
+        for(Stash stash : stashes) {
+            if(stash.getMarker().equals(stashToUpdate.getMarker())) {
+                repository.delete(stash);
+                repository.save(stashToUpdate);
             }
         }
     }

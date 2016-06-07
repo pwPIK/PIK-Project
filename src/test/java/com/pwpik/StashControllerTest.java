@@ -2,7 +2,6 @@ package com.pwpik;
 
 import com.pwpik.domain.Marker;
 import com.pwpik.domain.Stash;
-import com.pwpik.repository.StashRepository;
 import com.pwpik.web.StashController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,11 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,20 +25,26 @@ public class StashControllerTest {
     private StashController controller;
 
     @Test
-    public void get_all_stashes() {
-        Stash stashes[] = controller.displayFirst().toArray(new Stash[2]);
-        assertEquals("First stash with Edam", stashes[0].getDescription());
-        assertEquals("Second stash with Gouda", stashes[1].getDescription());
-        assertEquals(false, stashes[0].isVisited());
-        assertEquals(true, stashes[1].isVisited());
+    public void receive_and_store_stashes() {
+        assertEquals(2, controller.getAll().size());
+        Stash toSave = new Stash(new Marker(1.2f, 3.4f), "Test description");
+        controller.store(toSave);
+        assertEquals(3, controller.getAll().size());
     }
 
     @Test
-    public void new_stash_is_stored() {
-        int initialStashesAmount = controller.displayFirst().size();
-        controller.store(new Stash(new Marker(1.17f, 2.89f), "Test entry"));
-        int afterStorageNumber = controller.displayFirst().size();
-        assertEquals(1, afterStorageNumber - initialStashesAmount);
+    public void edit_stash() {
+        final Stash alreadyStored = getIthStash(1);
+        assertTrue(alreadyStored.isVisited());
+        final Stash editedStash = new Stash(alreadyStored.getMarker().copy(),
+                                            "Test description");
+        controller.edit(editedStash);
+        final Stash edited = getIthStash(1);
+        assertFalse(edited.isVisited());
+    }
+
+    Stash getIthStash(int id) {
+        return (Stash)(controller.getAll().toArray()[id]);
     }
 
 }
