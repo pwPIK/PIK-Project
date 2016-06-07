@@ -1,4 +1,4 @@
-package com.pwpik;
+package application;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -7,9 +7,9 @@ import static org.junit.Assert.*;
 *
 * @author Bartlomiej Kunikowski
 */
-public class integrationTest {
+public class IntegrationTest {
     
-    public integrationTest() {
+    public IntegrationTest() {
     }
 
     @Test

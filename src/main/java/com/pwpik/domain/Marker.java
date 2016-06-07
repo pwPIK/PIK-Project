@@ -31,4 +31,16 @@ public class Marker {
         return latitude;
     }
 
+    public Marker copy() {
+        return new Marker(this.latitude, this.longitude);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!obj.getClass().equals(Marker.class))
+            return false;
+        Marker m = (Marker)obj;
+        return Float.compare(this.latitude, m.latitude) == 0
+               && Float.compare(this.longitude, m.longitude) == 0;
+    }
 }

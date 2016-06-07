@@ -22,7 +22,7 @@ public class StashController {
     }
 
     @RequestMapping(value = "/display")
-    public Collection<Stash> displayFirst() {
+    public Collection<Stash> getAll() {
         return service.getAllStashes();
     }
 
@@ -32,6 +32,8 @@ public class StashController {
     }
 
     @RequestMapping(value = "/edit")
-    public void edit(@RequestBody Stash stash) { service.editStash(stash); }
+    public void edit(@RequestBody Stash stash) {
+        service.editStash(stash);
+    }
 
 }

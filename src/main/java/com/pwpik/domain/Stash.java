@@ -17,20 +17,20 @@ public class Stash {
     private String description;
 
     @Column
-    private short visited;
+    private boolean visited;
 
     public Stash() {}
 
     public Stash(Marker marker, String description) {
         this.marker = marker;
         this.description = description;
-        this.visited = 0;
+        this.visited = false;
     }
 
     public Stash(Marker marker, String description, short visited) {
         this.marker = marker;
         this.description = description;
-        this.visited = visited;
+        this.visited = true;
     }
 
     public Long getId() { return id; }
@@ -44,9 +44,6 @@ public class Stash {
     }
 
     public boolean isVisited() {
-        if(visited == 1)
-            return true;
-        else
-            return false;
+        return visited;
     }
 }
